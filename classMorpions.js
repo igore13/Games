@@ -4,7 +4,15 @@ class Morpions {
         this.io = io;
     }
 
-    restart(socket, roomId) {
+    chat(message, roomId) {
+        const room = this.rooms.find(room => room.id === roomId);
+
+        if (message != "") {
+            this.io.to(room.id).emit('morpions-message', message);
+        }
+    }
+
+    restart(roomId) {
         const room = this.rooms.find(room => room.id === roomId);
 
         if (room && room.players.length === 2) {
@@ -116,12 +124,16 @@ class Morpions {
             })
         
             socket.on('morpions-restart', (roomId) => {
-                this.restart(socket, roomId);
+                this.restart(roomId);
             });
         
             socket.on('disconnect', () => {
                 this.disconnect(socket);
             });
+
+            socket.on('morpions-message', (message, roomId) => {
+                this.chat(message, roomId);
+            })
         });
 
         app.get('/morpions', (request, result) => {

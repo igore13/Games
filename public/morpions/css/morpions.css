@@ -20,6 +20,7 @@ body header {
       grid-template-columns: 100px 1fr 100px;
   background-color: black;
   color: #f0f0f0;
+  margin-bottom: 10px;
 }
 
 body header h1 {
@@ -32,6 +33,62 @@ body header a img {
 
 body main {
   margin: auto;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto auto;
+      grid-template-columns: auto auto;
+}
+
+body main #chat-room {
+  border: 1px solid black;
+  background-color: #f0f0f0;
+  margin: 0 5px;
+  grid-row: span 2;
+  width: 300px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr auto;
+      grid-template-rows: auto 1fr auto;
+}
+
+body main #chat-room.hidden {
+  display: none;
+}
+
+body main #chat-room p {
+  text-align: center;
+  font-size: 1em;
+  margin: 0;
+  padding: 10px;
+  background-color: #777777;
+}
+
+body main #chat-room ul {
+  overflow: scroll;
+  padding: 10px;
+}
+
+body main #chat-room ul li {
+  list-style-type: none;
+}
+
+body main #chat-room input {
+  margin: 5px;
+}
+
+body main #chat-room #chat-send {
+  color: black;
+  padding: 10px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  background-color: white;
+}
+
+body main #chat-room #chat-send:hover {
+  background-color: #777777;
+  color: #f0f0f0;
 }
 
 body main #waiting-game {
@@ -170,6 +227,7 @@ body footer {
   padding: 20px;
   background-color: black;
   color: #f0f0f0;
+  margin-top: 10px;
 }
 
 body .loader {

@@ -26,7 +26,10 @@ class Morpions {
             elementGameRestart: document.getElementById("game-restart"),
             elementGameBoard: document.getElementById("game-board"),
             elementLinkShare: document.getElementById("link-share"),
-            elementVS: document.getElementById("game-vs")
+            elementVS: document.getElementById("game-vs"),
+            elementChat: document.getElementById("chat-room"),
+            elementChatMessage: document.getElementById("chat-msg"),
+            elementChatText: document.getElementById("chat-text")
         }
     }
 
@@ -184,6 +187,7 @@ class Morpions {
     startGame(players) {
         this.display.elementGameCancel.classList.add('hidden');
         this.display.elementGameBoard.classList.remove('hidden');
+        this.display.elementChat.classList.remove('hidden');
     
         this.display.elementVS.textContent = players[0].username + "(" + players[0].point + ") VS " + players[1].username + "(" + players[1].point + ")";
     
@@ -235,6 +239,12 @@ class Morpions {
             if (playerTarget.socketId == this.player.socketId) {
                 document.location.href="/"; 
             }
+        })
+
+        this.socket.on('morpions-message', (message) => {
+            const elementMessage = document.createElement('li');
+            elementMessage.textContent = message;
+            this.display.elementChatMessage.appendChild(elementMessage);
         })
 
         this.socket.on('morpions-start', (players) => {
@@ -323,6 +333,12 @@ class Morpions {
         
                 socket.emit('morpions-play', this.player);
             }
+        });
+
+        $("#chat-send").on('click', () => {
+            const message = this.player.username + ": " + this.display.elementChatText.value;
+            this.display.elementChatText.textContent = "";
+            socket.emit('morpions-message', message, this.player.roomId);
         });
         
         $("#game-restart").on('click', () => {
