@@ -61,8 +61,8 @@ class Puissance4 {
     }
     
     calculWin(playedCell, classname) {
-        let row = playedCell[5];
-        let column = playedCell[7];
+        const row = playedCell[5];
+        const column = playedCell[7];
 
         let serie = 0;
         let arrayElement = [];
@@ -114,7 +114,75 @@ class Puissance4 {
     
         // DIAGONAL
     
-        // A FAIRE !
+        serie = 0;
+        arrayElement = [];
+
+        let calcul = 0;
+        let newRow = Number(row);
+        let newColumn = Number(column);
+        
+        if (newColumn > newRow) {
+            calcul = newRow - 1;
+            newRow = newRow - calcul;
+            newColumn = newColumn - calcul;
+
+        } else if (newColumn < newRow) {
+            calcul = newColumn - 1;
+            newRow = newRow - calcul;
+            newColumn = newColumn - calcul;
+
+        } else {
+            newRow = 1;
+            newColumn = 1;
+        }
+
+        for (let i = 1; i < 8; i++) {
+            if (newRow < 7 && newRow > 0 && newColumn < 8 && newColumn > 0) {
+                if ($(`#cell-${newRow}-${newColumn}`)[0].classList.contains(classname)) {
+                    serie++;
+                    arrayElement.push(`#cell-${newRow}-${newColumn}`);
+                } else if (serie < 4) {
+                    serie = 0;
+                    arrayElement = [];
+                }
+            }
+            newRow++;
+            newColumn++;
+        }
+    
+        if (serie >= 4) {
+            arrayElement.forEach(element => {
+                $(element).addClass("win-cell");
+            });
+    
+            return true;
+        }
+
+        calcul = 7 - Number(column);
+        newRow = Number(row) - calcul;
+        newColumn = Number(column) + calcul;
+
+        for (let i = 1; i < 8; i++) {
+            if (newRow < 7 && newRow > 0 && newColumn < 8 && newColumn > 0) {
+                if ($(`#cell-${newRow}-${newColumn}`)[0].classList.contains(classname)) {
+                    serie++;
+                    arrayElement.push(`#cell-${newRow}-${newColumn}`);
+                } else if (serie < 4) {
+                    serie = 0;
+                    arrayElement = [];
+                }
+            }
+            newRow++;
+            newColumn--;
+        }
+    
+        if (serie >= 4) {
+            arrayElement.forEach(element => {
+                $(element).addClass("win-cell");
+            });
+    
+            return true;
+        }
     }
 
     setGameText(message, classToAdd = false, classToRemove = false) {
