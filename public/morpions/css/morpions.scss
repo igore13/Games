@@ -1,0 +1,250 @@
+$primaryColor_1: rgb(0, 0, 0);
+$primaryColor_2: rgb(119, 119, 119);
+$primaryColor_3: rgb(240, 240, 240);
+
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
+    font-family: sans-serif;
+    color: $primaryColor_1;
+
+    .hidden {
+        display: none;
+    }
+
+    header {
+        display: grid;
+        grid-template-columns: 100px 1fr 100px;
+        background-color: $primaryColor_1;
+        color: $primaryColor_3;
+
+        h1 {
+            text-align: center;
+        }
+        a {
+            img {
+                width: 100px;
+            }
+        }
+    }
+
+    main {
+        margin: auto;
+
+        #waiting-game {
+            padding: 20px 0;
+
+            div {
+                width: 25vw;
+                background-color: $primaryColor_3;
+                color: $primaryColor_1;
+                border: 1px solid $primaryColor_1;
+                padding: 20px;
+                margin: 5px auto;
+                
+                form {
+                    label {
+                        input {
+                            width: 100%;
+                            padding: 0;
+                        }
+                    }
+
+                    button {
+                        color: $primaryColor_1;
+                        padding: 10px 10px;
+                        border: 1px solid $primaryColor_1;
+                        border-radius: 10px;
+                        transition: 0.4s;
+                        background-color: white;
+
+                        &:hover {
+                            background-color: $primaryColor_2;
+                            color: $primaryColor_3;
+                        }
+                    }
+                }
+
+                nav {
+                    ul {
+                        padding: 0;
+
+                        li {
+                            list-style-type: none;
+                            background-color: white;
+                            padding: 10px;
+                            transition: 0.4s;
+                            border-radius: 10px;
+
+                            &:hover {
+                                background-color: $primaryColor_2;
+                                color: $primaryColor_3;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #game {
+            text-align: center;
+            padding: 20px 0;
+
+            &-text {
+                margin: 20px;
+                padding: 10px;
+                border: 1px solid $primaryColor_1;
+                border-radius: 10px;
+            }
+
+            &-vs {
+                margin: 20px;
+                font-size: 3em;
+                font-weight: bold;
+            }
+
+            .cell {
+                border: 1px solid $primaryColor_1;
+                font-size: 5em;
+                height: 150px;
+                width: 150px;
+                transition: 0.4s;
+
+                &:hover {
+                    background-color: $primaryColor_2;
+                }
+            }
+
+            .win-cell {
+                background-color: green !important;
+            }
+
+            .enemy-cell {
+                color: red;
+            }
+
+            .played-cell {
+                color: green;
+            }
+
+            .green {
+                background-color: rgba(0, 128, 0, 0.5);
+            }
+
+            .orange {
+                background-color: rgba(255, 165, 0, 0.5);
+            }
+
+            .red {
+                background-color: rgba(255, 0, 0, 0.5);
+            }
+
+            table {
+                border-collapse: collapse;
+                margin: auto;
+                background-color: $primaryColor_3;
+            }
+
+            #game-restart {
+                margin: 10px;
+
+                input {
+                    color: $primaryColor_1;
+                    padding: 10px 10px;
+                    border: 1px solid $primaryColor_1;
+                    border-radius: 10px;
+                    transition: 0.4s;
+                    background-color: white;
+
+                    &:hover {
+                        background-color: $primaryColor_2;
+                        color: $primaryColor_3;
+                    }
+                }
+            }
+        }
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: $primaryColor_1;
+        color: $primaryColor_3;
+    }
+
+    // Spinner
+    $color1: #a5a7bb;
+    $color2: #a496a4;
+    $color3: #554d73;
+    
+    .loader {
+        width: 150px;
+        height: 150px;
+        margin: 20px auto;
+    
+        svg {
+            width: 90%;
+            fill: none;
+        }
+        
+        .load {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 570;
+            stroke-width: 20px;
+            &.one {
+                stroke: $color3;
+                animation: load 1.5s infinite;
+            }
+            &.two {
+                stroke: $color2;
+                animation: load 1.5s infinite;
+                animation-delay: 0.1s;
+            }
+            &.three {
+                stroke: $color1;
+                animation: load 1.5s infinite;
+                animation-delay: 0.2s;
+            }
+        }
+        
+        .point {
+            animation: bounce 1s infinite ease-in-out;
+            &.one {
+                fill: $color1;
+                animation-delay: 0s;
+            }
+            &.two {
+                fill: $color2;
+                animation-delay: 0.1s;
+            }
+            &.three {
+                fill: $color3;
+                animation-delay: 0.2s;
+            }
+        }
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            }
+            @keyframes load {
+            0% {
+                stroke-dashoffset: 570;
+            }
+            50% {
+                stroke-dashoffset: 530;
+            }
+            100% {
+                stroke-dashoffset: 570;
+                transform: rotate(360deg);
+            }
+        }
+    }    
+}

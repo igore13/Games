@@ -1,0 +1,72 @@
+body {
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr auto;
+      grid-template-rows: auto 1fr auto;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 1fr 100px;
+      grid-template-columns: 100px 1fr 100px;
+  background-color: black;
+  color: #f0f0f0;
+}
+
+body header h1 {
+  text-align: center;
+}
+
+body header a img {
+  width: 100px;
+}
+
+body main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 50px;
+}
+
+body main section.games {
+  text-align: center;
+  width: 200px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  color: #777777;
+  cursor: pointer;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+body main section.games img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+
+body main section.games:hover {
+  background-color: #777777;
+  color: #f0f0f0;
+}
+
+body footer {
+  text-align: center;
+  padding: 20px;
+  background-color: black;
+  color: #f0f0f0;
+}
+/*# sourceMappingURL=index.css.map */

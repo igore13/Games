@@ -1,0 +1,63 @@
+$primaryColor_1: rgb(0, 0, 0);
+$primaryColor_2: rgb(119, 119, 119);
+$primaryColor_3: rgb(240, 240, 240);
+
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
+    font-family: sans-serif;
+
+    header {
+        display: grid;
+        grid-template-columns: 100px 1fr 100px;
+        background-color: $primaryColor_1;
+        color: $primaryColor_3;
+
+        h1 {
+            text-align: center;
+        }
+        a {
+            img {
+                width: 100px;
+            }
+        }
+    }
+
+    main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding: 50px;
+
+        section.games {
+            text-align: center;
+            width: 200px;
+            background-color: $primaryColor_3;
+            padding: 20px;
+            color: $primaryColor_2;
+            cursor: pointer;
+            transition: 0.4s;
+            
+            img {
+                width: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            &:hover {
+                background-color: $primaryColor_2;
+                color: $primaryColor_3;
+            }
+        }
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: $primaryColor_1;
+        color: $primaryColor_3;
+    }
+}

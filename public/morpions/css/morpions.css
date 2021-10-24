@@ -1,0 +1,289 @@
+body {
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr auto;
+      grid-template-rows: auto 1fr auto;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+}
+
+body .hidden {
+  display: none;
+}
+
+body header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 1fr 100px;
+      grid-template-columns: 100px 1fr 100px;
+  background-color: black;
+  color: #f0f0f0;
+}
+
+body header h1 {
+  text-align: center;
+}
+
+body header a img {
+  width: 100px;
+}
+
+body main {
+  margin: auto;
+}
+
+body main #waiting-game {
+  padding: 20px 0;
+}
+
+body main #waiting-game div {
+  width: 25vw;
+  background-color: #f0f0f0;
+  color: black;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 5px auto;
+}
+
+body main #waiting-game div form label input {
+  width: 100%;
+  padding: 0;
+}
+
+body main #waiting-game div form button {
+  color: black;
+  padding: 10px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  background-color: white;
+}
+
+body main #waiting-game div form button:hover {
+  background-color: #777777;
+  color: #f0f0f0;
+}
+
+body main #waiting-game div nav ul {
+  padding: 0;
+}
+
+body main #waiting-game div nav ul li {
+  list-style-type: none;
+  background-color: white;
+  padding: 10px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+body main #waiting-game div nav ul li:hover {
+  background-color: #777777;
+  color: #f0f0f0;
+}
+
+body main #game {
+  text-align: center;
+  padding: 20px 0;
+}
+
+body main #game-text {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+body main #game-vs {
+  margin: 20px;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+body main #game .cell {
+  border: 1px solid black;
+  font-size: 5em;
+  height: 150px;
+  width: 150px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+body main #game .cell:hover {
+  background-color: #777777;
+}
+
+body main #game .win-cell {
+  background-color: green !important;
+}
+
+body main #game .enemy-cell {
+  color: red;
+}
+
+body main #game .played-cell {
+  color: green;
+}
+
+body main #game .green {
+  background-color: rgba(0, 128, 0, 0.5);
+}
+
+body main #game .orange {
+  background-color: rgba(255, 165, 0, 0.5);
+}
+
+body main #game .red {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+body main #game table {
+  border-collapse: collapse;
+  margin: auto;
+  background-color: #f0f0f0;
+}
+
+body main #game #game-restart {
+  margin: 10px;
+}
+
+body main #game #game-restart input {
+  color: black;
+  padding: 10px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  background-color: white;
+}
+
+body main #game #game-restart input:hover {
+  background-color: #777777;
+  color: #f0f0f0;
+}
+
+body footer {
+  text-align: center;
+  padding: 20px;
+  background-color: black;
+  color: #f0f0f0;
+}
+
+body .loader {
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
+}
+
+body .loader svg {
+  width: 90%;
+  fill: none;
+}
+
+body .loader .load {
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  stroke-dasharray: 570;
+  stroke-width: 20px;
+}
+
+body .loader .load.one {
+  stroke: #554d73;
+  -webkit-animation: load 1.5s infinite;
+          animation: load 1.5s infinite;
+}
+
+body .loader .load.two {
+  stroke: #a496a4;
+  -webkit-animation: load 1.5s infinite;
+          animation: load 1.5s infinite;
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
+}
+
+body .loader .load.three {
+  stroke: #a5a7bb;
+  -webkit-animation: load 1.5s infinite;
+          animation: load 1.5s infinite;
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s;
+}
+
+body .loader .point {
+  -webkit-animation: bounce 1s infinite ease-in-out;
+          animation: bounce 1s infinite ease-in-out;
+}
+
+body .loader .point.one {
+  fill: #a5a7bb;
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+}
+
+body .loader .point.two {
+  fill: #a496a4;
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
+}
+
+body .loader .point.three {
+  fill: #554d73;
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s;
+}
+
+@-webkit-keyframes bounce {
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  50% {
+    -webkit-transform: translateY(-20px);
+            transform: translateY(-20px);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  50% {
+    -webkit-transform: translateY(-20px);
+            transform: translateY(-20px);
+  }
+}
+
+@-webkit-keyframes load {
+  0% {
+    stroke-dashoffset: 570;
+  }
+  50% {
+    stroke-dashoffset: 530;
+  }
+  100% {
+    stroke-dashoffset: 570;
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes load {
+  0% {
+    stroke-dashoffset: 570;
+  }
+  50% {
+    stroke-dashoffset: 530;
+  }
+  100% {
+    stroke-dashoffset: 570;
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+/*# sourceMappingURL=morpions.css.map */
