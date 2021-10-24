@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puissance 4 - Jeux en Ligne</title>
+    <link rel="stylesheet" href="public/puissance4/css/puissance4.css">
+</head>
+<body>
+    <header>
+        <a href="/"><img src="https://upload.wikimedia.org/wikipedia/fr/1/11/Panda3D_Logo.png" alt=""></a>
+        <h1>Puissance 4 - Jeux en Ligne</h1>
+    </header>
+
+    <main>
+        <section id="waiting-game">
+            <div>
+                <form action="" method="post" id="form">
+                    <label for="username"><p>Nom d'utilisateur :</p><p><input type="text" name="username" id="username" placeholder="Saisir un nom d'utilisateur" required></p></label>
+        
+                    <button type="submit" id="join-room">Creer un salon privée</button>
+                </form>
+            </div>
+                
+            <div>
+                <p>Salons disponibles :</p>
+                <nav>
+                    <ul id="list">
+                        <!-- Liste des Salons -->
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        <section id="game" class="hidden">
+            <p id="game-vs"></p>
+            <p id="game-text"></p>
+            <table id="game-board" class="hidden">
+                <tr>
+                    <td class="cell" id="cell-1-1"></td>
+                    <td class="cell" id="cell-1-2"></td>
+                    <td class="cell" id="cell-1-3"></td>
+                    <td class="cell" id="cell-1-4"></td>
+                    <td class="cell" id="cell-1-5"></td>
+                    <td class="cell" id="cell-1-6"></td>
+                    <td class="cell" id="cell-1-7"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="cell-2-1"></td>
+                    <td class="cell" id="cell-2-2"></td>
+                    <td class="cell" id="cell-2-3"></td>
+                    <td class="cell" id="cell-2-4"></td>
+                    <td class="cell" id="cell-2-5"></td>
+                    <td class="cell" id="cell-2-6"></td>
+                    <td class="cell" id="cell-2-7"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="cell-3-1"></td>
+                    <td class="cell" id="cell-3-2"></td>
+                    <td class="cell" id="cell-3-3"></td>
+                    <td class="cell" id="cell-3-4"></td>
+                    <td class="cell" id="cell-3-5"></td>
+                    <td class="cell" id="cell-3-6"></td>
+                    <td class="cell" id="cell-3-7"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="cell-4-1"></td>
+                    <td class="cell" id="cell-4-2"></td>
+                    <td class="cell" id="cell-4-3"></td>
+                    <td class="cell" id="cell-4-4"></td>
+                    <td class="cell" id="cell-4-5"></td>
+                    <td class="cell" id="cell-4-6"></td>
+                    <td class="cell" id="cell-4-7"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="cell-5-1"></td>
+                    <td class="cell" id="cell-5-2"></td>
+                    <td class="cell" id="cell-5-3"></td>
+                    <td class="cell" id="cell-5-4"></td>
+                    <td class="cell" id="cell-5-5"></td>
+                    <td class="cell" id="cell-5-6"></td>
+                    <td class="cell" id="cell-5-7"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="cell-6-1"></td>
+                    <td class="cell" id="cell-6-2"></td>
+                    <td class="cell" id="cell-6-3"></td>
+                    <td class="cell" id="cell-6-4"></td>
+                    <td class="cell" id="cell-6-5"></td>
+                    <td class="cell" id="cell-6-6"></td>
+                    <td class="cell" id="cell-6-7"></td>
+                </tr>
+            </table>
+            <p id="link-share"></p>
+            <div id="game-cancel">
+                <div class="loader">
+                    <svg viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                      <circle class="load one" cx="60" cy="60" r="40" />
+                      <circle class="load two" cx="60" cy="60" r="40" />
+                      <circle class="load three" cx="60" cy="60" r="40" />
+                      <g>
+                        <circle class="point one" cx="45" cy="70" r="5" />
+                        <circle class="point two" cx="60" cy="70" r="5" />
+                        <circle class="point three" cx="75" cy="70" r="5" />
+                      </g>
+                    </svg>
+                </div>
+                <input type="button" value="Annuler" id="cancel">
+            </div>
+            <div id="game-restart" class="hidden">
+                <input type="button" value="Rejouer" id="restart">
+            </div>
+        </section>
+
+        <section id="chat-room" class="hidden">
+            <p>Chat Room :</p>
+            <ul id="chat-msg">
+                <!-- Chat Message -->
+            </ul>
+            <input type="text" name="chat-text" id="chat-text" placeholder="Entrer un texte">
+            <input type="button" id="chat-send" value="Envoyer">
+        </section>
+    </main>
+
+    <footer>
+        <strong>&copy Copyright 2021 &copy E404 - Not Found</strong>
+    </footer>
+
+    <script src="jquery/jquery.min.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="public/puissance4/js/puissance4.js"></script>
+</body>
+</html>

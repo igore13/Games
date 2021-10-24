@@ -162,11 +162,11 @@ body main #game-vs {
 
 body main #game .cell {
   border: 1px solid black;
-  font-size: 5em;
-  height: 150px;
-  width: 150px;
+  height: 80px;
+  width: 80px;
   -webkit-transition: 0.4s;
   transition: 0.4s;
+  border-radius: 200px;
 }
 
 body main #game .cell:hover {
@@ -178,11 +178,11 @@ body main #game .win-cell {
 }
 
 body main #game .enemy-cell {
-  color: red;
+  background-color: red;
 }
 
 body main #game .played-cell {
-  color: green;
+  background-color: yellow;
 }
 
 body main #game .green {
@@ -198,9 +198,9 @@ body main #game .red {
 }
 
 body main #game table {
-  border-collapse: collapse;
   margin: auto;
   background-color: #f0f0f0;
+  border-spacing: 15px;
 }
 
 body main #game #game-restart {
@@ -344,4 +344,4 @@ body .loader .point.three {
             transform: rotate(360deg);
   }
 }
-/*# sourceMappingURL=morpions.css.map */
+/*# sourceMappingURL=puissance4.css.map */

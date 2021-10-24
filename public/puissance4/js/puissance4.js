@@ -1,4 +1,4 @@
-class Morpions {
+class Puissance4 {
     constructor(socket) {
         this.socket = socket;
         this.urlRoomId;
@@ -9,7 +9,6 @@ class Morpions {
             roomId: null,
             username: "",
             socketId: "",
-            symbol: "X",
             turn: false,
             win: false,
             first: false,
@@ -35,89 +34,11 @@ class Morpions {
     }
 
     calculEquality() {
-        let equality = true;
-        const cells = document.getElementsByClassName('cell');
-    
-        for (const cell of cells) {
-            if (cell.textContent === '') {
-                equality = false;
-            }
-        };
-    
-        return equality;
+        return false;
     }
     
-    calculWin(playedCell, symbol = this.player.symbol) {
-        let row = playedCell[5];
-        let column = playedCell[7];
-    
-    
-        // VERTICAL
-        let win = true;
-    
-        for (let i = 1; i < 4; i++) {
-            if ($(`#cell-${i}-${column}`).text() !== symbol) {
-                win = false;
-            }
-        }
-    
-        if (win) {
-            for (let i = 1; i < 4; i++) {
-                $(`#cell-${i}-${column}`).addClass("win-cell");
-            }
-    
-            return win;
-        }
-    
-        // HORIZONTAL
-    
-        win = true;
-        for (let i = 1; i < 4; i++) {
-            if ($(`#cell-${row}-${i}`).text() !== symbol) {
-                win = false;
-            }
-        }
-    
-        if (win) {
-            for (let i = 1; i < 4; i++) {
-                $(`#cell-${row}-${i}`).addClass("win-cell");
-            }
-    
-            return win;
-        }
-    
-        // DIAGONAL
-    
-        win = true;
-    
-        for (let i = 1; i < 4; i++) {
-            if ($(`#cell-${i}-${i}`).text() !== symbol) {
-                win = false;
-            }
-        }
-    
-        if (win) {
-            for (let i = 1; i < 4; i++) {
-                $(`#cell-${i}-${i}`).addClass("win-cell");
-            }
-    
-            return win;
-        }
-    
-        win = false;
-        if ($("#cell-1-3").text() === symbol) {
-            if ($("#cell-2-2").text() === symbol) {
-                if ($("#cell-3-1").text() === symbol) {
-                    win = true;
-    
-                    $("#cell-1-3").addClass("win-cell");
-                    $("#cell-2-2").addClass("win-cell");
-                    $("#cell-3-1").addClass("win-cell");
-    
-                    return win;
-                }
-            }
-        }
+    calculWin(playedCell) {
+        return false;
     }
 
     setGameText(message, classToAdd = false, classToRemove = false) {
@@ -146,7 +67,7 @@ class Morpions {
             this.player.socketId = this.socket.id;
             this.player.roomId = event.currentTarget.dataset.room;
     
-            this.socket.emit('morpions-playerData', this.player);
+            this.socket.emit('puissance4-playerData', this.player);
     
             this.display.elementWaitingGame.classList.add('hidden');
             this.display.elementGame.classList.remove('hidden');
@@ -155,7 +76,7 @@ class Morpions {
 
     restartGame(players = null) {
         if (this.player.host && !players) {
-            socket.emit('morpions-restart', this.player.roomId);
+            socket.emit('puissance4-restart', this.player.roomId);
     
             this.display.elementGameRestart.classList.add('hidden');
         } else if (this.player.host && players) {
@@ -166,7 +87,6 @@ class Morpions {
         const cells = document.getElementsByClassName('cell');
     
         for (const cell of cells) {
-            cell.textContent = '';
             cell.classList.remove('win-cell', 'enemy-cell');
         }
     
@@ -213,7 +133,7 @@ class Morpions {
     createClientGame() {
         this.checkRoomUrl();
 
-        this.socket.on('morpions-list', (rooms) => {
+        this.socket.on('puissance4-list', (rooms) => {
             this.display.elementListRooms.innerHTML = "";
             if (rooms.length > 0) {
                 rooms.forEach(room => {
@@ -236,23 +156,23 @@ class Morpions {
             }
         });
 
-        this.socket.on('morpions-disconnectPlayer', (playerTarget) => {
+        this.socket.on('puissance4-disconnectPlayer', (playerTarget) => {
             if (playerTarget.socketId == this.player.socketId) {
                 document.location.href="/"; 
             }
         })
 
-        this.socket.on('morpions-message', (message) => {
+        this.socket.on('puissance4-message', (message) => {
             const elementMessage = document.createElement('li');
             elementMessage.textContent = message;
             this.display.elementChatMessage.appendChild(elementMessage);
         })
 
-        this.socket.on('morpions-start', (players) => {
+        this.socket.on('puissance4-start', (players) => {
             this.startGame(players);
         });
 
-        this.socket.on('morpions-join', (roomId) => {
+        this.socket.on('puissance4-join', (roomId) => {
             this.player.roomId = roomId;
             if (window.location.href.indexOf('room') != -1) {
                 this.display.elementLinkShare.innerHTML = 'Partager le lien à un amie : <a href=' + window.location.href + ' target="_blank">' + window.location.href + '</a>';
@@ -261,17 +181,15 @@ class Morpions {
             }
         });
 
-        this.socket.on('morpions-restart', (players) => {
+        this.socket.on('puissance4-restart', (players) => {
             this.restartGame(players);
         });
 
-        this.socket.on('morpions-play', (playerPlayed, players) => {
+        this.socket.on('puissance4-play', (playerPlayed, players) => {
             const elementPlayerCell = document.getElementById(playerPlayed.playedCell);
-            
             if (playerPlayed.socketId !== this.player.socketId && !playerPlayed.turn) {
 
                 elementPlayerCell.classList.add('enemy-cell');
-                elementPlayerCell.textContent = 'O';
 
                 if (playerPlayed.win) {
                     this.setGameText("C'est perdu ! " + this.getEnemyName(players, this.player.socketId) + " à gagnée la partie !", ["red"], ["orange", "green"]);
@@ -327,22 +245,20 @@ class Morpions {
         $(".cell").on('click', (event) => {
             const playedCell = event.currentTarget.getAttribute('id');
         
-            if (event.currentTarget.textContent === "" && this.player.turn) {
+            if (!event.currentTarget.classList.contains('enemy-cell') && !event.currentTarget.classList.contains('played-cell') && this.player.turn) {
                 this.player.playedCell = playedCell;
-        
-                event.currentTarget.textContent = this.player.symbol;
         
                 this.player.win = this.calculWin(playedCell);
                 this.player.turn = false;
         
-                socket.emit('morpions-play', this.player);
+                socket.emit('puissance4-play', this.player);
             }
         });
 
         $("#chat-send").on('click', () => {
             const message = this.player.username + ": " + this.display.elementChatText.value;
             this.display.elementChatText.textContent = "";
-            socket.emit('morpions-message', message, this.player.roomId);
+            socket.emit('puissance4-message', message, this.player.roomId);
         });
         
         $("#game-restart").on('click', () => {
@@ -370,18 +286,18 @@ class Morpions {
         
             this.display.elementVS.textContent = this.player.username + " VS ???";
         
-            socket.emit('morpions-playerData', this.player);
+            socket.emit('puissance4-playerData', this.player);
         });
 
-        this.socket.emit('morpions-list');
+        this.socket.emit('puissance4-list');
 
         setInterval(() => {
-            this.socket.emit('morpions-list');
+            this.socket.emit('puissance4-list');
         }, 10000);
     }
 }
 
 const socket = io();
 
-const App_Morpions = new Morpions(socket);
-App_Morpions.createClientGame();
+const App_Puissance4 = new Puissance4(socket);
+App_Puissance4.createClientGame();

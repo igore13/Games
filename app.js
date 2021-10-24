@@ -30,10 +30,23 @@ app.use('/public/index/css', express.static(path.join(__dirname, 'public/index/c
 app.use('/public/index/js', express.static(path.join(__dirname, 'public/index/js')));
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
+io.on('connection', (socket) => {
+    console.log(`[INFO : Connecting] ${socket.id}`);
+
+    socket.on('disconnect', () => {
+        console.log(`[INFO : Disconnecting] ${socket.id}`);
+    });
+});
+
 // Generation du Morpions
 const Morpions = require('./classMorpions');
 const App_Morpions = new Morpions(io);
 App_Morpions.createServerGame(app, express, path);
+
+// Generation du Puissance4
+const Puissance4 = require('./classPuissance4');
+const App_Puissance4 = new Puissance4(io);
+App_Puissance4.createServerGame(app, express, path);
 
 // Utilisation du Repertoire Public
 app.use(express.static('public'));

@@ -1,4 +1,4 @@
-class Morpions {
+class Puissance4 {
     constructor(io) {
         this.rooms = [];
         this.io = io;
@@ -8,7 +8,7 @@ class Morpions {
         const room = this.rooms.find(room => room.id === roomId);
 
         if (message != "") {
-            this.io.to(room.id).emit('morpions-message', message);
+            this.io.to(room.id).emit('puissance4-message', message);
         }
     }
 
@@ -16,7 +16,7 @@ class Morpions {
         const room = this.rooms.find(room => room.id === roomId);
 
         if (room && room.players.length === 2) {
-            this.io.to(room.id).emit('morpions-restart', room.players);
+            this.io.to(room.id).emit('puissance4-restart', room.players);
         }
     }
 
@@ -34,7 +34,7 @@ class Morpions {
                 players = room.players;
             }
         });
-        this.io.to(player.roomId).emit('morpions-play', player, players);
+        this.io.to(player.roomId).emit('puissance4-play', player, players);
     }
 
     disconnect(socket) {
@@ -46,9 +46,9 @@ class Morpions {
                         if (targetPlayer.host) {
                             this.rooms = this.rooms.filter(resultRoom => resultRoom !== room);
                             console.log(`[REMOVE : Room] ${socket.id}`);
-                            this.io.to(targetPlayer.socketId).emit('morpions-disconnectPlayer', targetPlayer);
+                            this.io.to(targetPlayer.socketId).emit('puissance4-disconnectPlayer', targetPlayer);
                         } else {
-                            this.io.to(targetPlayer.socketId).emit('morpions-disconnectPlayer', targetPlayer);
+                            this.io.to(targetPlayer.socketId).emit('puissance4-disconnectPlayer', targetPlayer);
                         }
                     });
                 }
@@ -57,7 +57,7 @@ class Morpions {
     }
 
     list(socket) {
-        this.io.to(socket.id).emit('morpions-list', this.rooms);
+        this.io.to(socket.id).emit('puissance4-list', this.rooms);
     }
 
     playerData(socket, player) {
@@ -65,7 +65,7 @@ class Morpions {
 
         if (!player.roomId) {
             room = this.createRoom(socket, player);
-            console.log(`[CREATE : Room Morpions] ${room.id} - ${player.username}`);
+            console.log(`[CREATE : Room Puissance 4] ${room.id} - ${player.username}`);
         } else {
             room = this.rooms.find(result => result.id === player.roomId);
 
@@ -74,7 +74,7 @@ class Morpions {
             }
             
             if (room.players.length == 2) {
-                this.io.to(socket.id).emit('morpions-disconnectPlayer', player);
+                this.io.to(socket.id).emit('puissance4-disconnectPlayer', player);
                 return;
             } else {
                 player.roomId = room.id;
@@ -84,10 +84,10 @@ class Morpions {
 
         socket.join(room.id);
 
-        this.io.to(socket.id).emit('morpions-join', room.id);
+        this.io.to(socket.id).emit('puissance4-join', room.id);
 
         if (room.players.length ===2) {
-            this.io.to(room.id).emit('morpions-start', room.players)
+            this.io.to(room.id).emit('puissance4-start', room.players)
         }
     }
 
@@ -107,19 +107,19 @@ class Morpions {
 
     createServerGame(app, express, path) {
         this.io.on('connection', (socket) => {
-            socket.on('morpions-playerData', (player) => {
+            socket.on('puissance4-playerData', (player) => {
                 this.playerData(socket, player);
             });
         
-            socket.on('morpions-list', () => {
+            socket.on('puissance4-list', () => {
                 this.list(socket);
             });
         
-            socket.on('morpions-play', (player) => {
+            socket.on('puissance4-play', (player) => {
                 this.play(socket, player);
             })
         
-            socket.on('morpions-restart', (roomId) => {
+            socket.on('puissance4-restart', (roomId) => {
                 this.restart(roomId);
             });
         
@@ -127,18 +127,18 @@ class Morpions {
                 this.disconnect(socket);
             });
 
-            socket.on('morpions-message', (message, roomId) => {
+            socket.on('puissance4-message', (message, roomId) => {
                 this.chat(message, roomId);
             })
         });
 
-        app.get('/morpions', (request, result) => {
-            result.sendFile(path.join(__dirname, 'public/morpions/morpions.html'));
+        app.get('/puissance4', (request, result) => {
+            result.sendFile(path.join(__dirname, 'public/puissance4/puissance4.html'));
         });
         
-        app.use('/public/morpions/css', express.static(path.join(__dirname, 'public/morpions/css')));
-        app.use('/public/morpions/js', express.static(path.join(__dirname, 'public/morpions/js')));
+        app.use('/public/puissance4/css', express.static(path.join(__dirname, 'public/puissance4/css')));
+        app.use('/public/puissance4/js', express.static(path.join(__dirname, 'public/puissance4/js')));
     }
 }
 
-module.exports = Morpions;
+module.exports = Puissance4;

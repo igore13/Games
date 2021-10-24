@@ -160,10 +160,10 @@ body {
 
             .cell {
                 border: 1px solid $primaryColor_1;
-                font-size: 5em;
-                height: 150px;
-                width: 150px;
+                height: 80px;
+                width: 80px;
                 transition: 0.4s;
+                border-radius: 200px;
 
                 &:hover {
                     background-color: $primaryColor_2;
@@ -175,11 +175,11 @@ body {
             }
 
             .enemy-cell {
-                color: red;
+                background-color: red;
             }
 
             .played-cell {
-                color: green;
+                background-color: yellow;
             }
 
             .green {
@@ -195,9 +195,9 @@ body {
             }
 
             table {
-                border-collapse: collapse;
                 margin: auto;
                 background-color: $primaryColor_3;
+                border-spacing: 15px;
             }
 
             #game-restart {
