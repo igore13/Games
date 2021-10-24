@@ -12,7 +12,8 @@ class Morpions {
             symbol: "X",
             turn: false,
             win: false,
-            first: false
+            first: false,
+            point: 0
         }
 
         this.display = {
@@ -184,7 +185,7 @@ class Morpions {
         this.display.elementGameCancel.classList.add('hidden');
         this.display.elementGameBoard.classList.remove('hidden');
     
-        this.display.elementVS.textContent = players[0].username + " VS " + players[1].username;
+        this.display.elementVS.textContent = players[0].username + "(" + players[0].point + ") VS " + players[1].username + "(" + players[1].point + ")";
     
         if (this.player.turn) {
             this.setGameText("C'est votre tour de jouer", ["green"], ["orange", "red"]);
@@ -208,6 +209,7 @@ class Morpions {
         this.checkRoomUrl();
 
         this.socket.on('morpions-list', (rooms) => {
+            this.display.elementListRooms.innerHTML = "";
             if (rooms.length > 0) {
                 rooms.forEach(room => {
                     if (room.players.length < 2) {
@@ -353,6 +355,10 @@ class Morpions {
         });
 
         this.socket.emit('morpions-list');
+
+        setInterval(() => {
+            this.socket.emit('morpions-list');
+        }, 10000);
     }
 }
 

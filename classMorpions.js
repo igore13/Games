@@ -16,6 +16,13 @@ class Morpions {
         let players = [];
         this.rooms.forEach(room => {
             if (room.id == player.roomId) {
+                if (player.win) {
+                    room.players.forEach(playerTarget => {
+                        if (playerTarget.socketId == player.socketId) {
+                            playerTarget.point++;
+                        }
+                    });
+                }
                 players = room.players;
             }
         });
