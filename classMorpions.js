@@ -13,7 +13,13 @@ class Morpions {
     }
 
     play(socket, player) {
-        this.io.to(player.roomId).emit('morpions-play', player);
+        let players = [];
+        this.rooms.forEach(room => {
+            if (room.id == player.roomId) {
+                players = room.players;
+            }
+        });
+        this.io.to(player.roomId).emit('morpions-play', player, players);
     }
 
     disconnect(socket) {

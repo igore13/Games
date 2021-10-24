@@ -11,7 +11,8 @@ class Morpions {
             socketId: "",
             symbol: "X",
             turn: false,
-            win: false
+            win: false,
+            first: false
         }
 
         this.display = {
@@ -134,11 +135,11 @@ class Morpions {
         return players.find(player => player.socketId != socketId).username;
     }
 
-    joinRoom() {
+    joinRoom(event) {
         if (this.display.elementUsernameInput.value !== "") {
             this.player.username = this.display.elementUsernameInput.value;
             this.player.socketId = this.socket.id;
-            this.player.roomId = this.dataset.room;
+            this.player.roomId = event.currentTarget.dataset.room;
     
             this.socket.emit('morpions-playerData', this.player);
     
@@ -149,10 +150,12 @@ class Morpions {
 
     restartGame(players = null) {
         if (this.player.host && !players) {
-            this.player.turn = true;
             socket.emit('morpions-restart', this.player.roomId);
     
             this.display.elementGameRestart.classList.add('hidden');
+        } else if (this.player.host && players) {
+            this.startGame(players);
+            return;
         }
     
         const cells = document.getElementsByClassName('cell');
@@ -162,8 +165,12 @@ class Morpions {
             cell.classList.remove('win-cell', 'enemy-cell');
         }
     
-        if (!this.player.host) {
+        if (this.player.first) {
             this.player.turn = false;
+            this.player.first = false;
+        } else {
+            this.player.turn = true;
+            this.player.first = true;
         }
     
         this.player.win = false;
@@ -179,7 +186,7 @@ class Morpions {
     
         this.display.elementVS.textContent = players[0].username + " VS " + players[1].username;
     
-        if (this.player.host && this.player.turn) {
+        if (this.player.turn) {
             this.setGameText("C'est votre tour de jouer", ["green"], ["orange", "red"]);
         } else {
             this.setGameText("C'est au tour de " + this.getEnemyName(players, this.player.socketId), ["orange"], ["red", "green"]);
@@ -209,7 +216,9 @@ class Morpions {
                         elementRoom.dataset.room = room.id;
                         this.display.elementListRooms.appendChild(elementRoom);
 
-                        elementRoom.addEventListener('click', this.joinRoom);
+                        elementRoom.addEventListener('click', (event) => {
+                            this.joinRoom(event);
+                        });
                     }
                 });
             } else {
@@ -243,16 +252,16 @@ class Morpions {
             this.restartGame(players);
         });
 
-        this.socket.on('morpions-play', (enemyPlayer) => {
-            if (enemyPlayer.socketId !== this.player.socketId && !enemyPlayer.turn) {
-                const elementPlayerCell = document.getElementById(enemyPlayer.playedCell);
+        this.socket.on('morpions-play', (playerPlayed, players) => {
+            if (playerPlayed.socketId !== this.player.socketId && !playerPlayed.turn) {
+                const elementPlayerCell = document.getElementById(playerPlayed.playedCell);
 
                 elementPlayerCell.classList.add('enemy-cell');
                 elementPlayerCell.textContent = 'O';
 
-                if (enemyPlayer.win) {
-                    this.setGameText("C'est perdu ! " + enemyPlayer.username + " à gagnée la partie !", ["red"], ["orange", "green"]);
-                    this.calculWin(enemyPlayer.playedCell, 'O');
+                if (playerPlayed.win) {
+                    this.setGameText("C'est perdu ! " + this.getEnemyName(players, this.player.socketId) + " à gagnée la partie !", ["red"], ["orange", "green"]);
+                    this.calculWin(playerPlayed.playedCell, 'O');
 
                     if (this.player.host) {
                         this.display.elementGameRestart.classList.remove('hidden');
@@ -294,7 +303,7 @@ class Morpions {
                     return;
                 }
 
-                this.setGameText("C'est au tour de " + enemyPlayer.username, ["orange"], ["red", "green"]);
+                this.setGameText("C'est au tour de " + this.getEnemyName(players, this.player.socketId), ["orange"], ["red", "green"]);
                 this.player.turn = false;
             }
         });
@@ -329,6 +338,7 @@ class Morpions {
             } else {
                 this.player.host = true;
                 this.player.turn = true;
+                this.player.first = true;
             }
         
             this.player.socketId = socket.id;

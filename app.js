@@ -1,5 +1,3 @@
-const Morpions = require('./classMorpions');
-
 // Dependance
 const { Socket } = require('socket.io');
 const express = require('express');
@@ -33,6 +31,7 @@ app.use('/public/index/js', express.static(path.join(__dirname, 'public/index/js
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 // Generation du Morpions
+const Morpions = require('./classMorpions');
 const App_Morpions = new Morpions(io);
 App_Morpions.createServerGame(app, express, path);
 
