@@ -161,12 +161,13 @@ body main #game-vs {
 }
 
 body main #game .cell {
-  border: 1px solid black;
+  border: 2px solid black;
   height: 80px;
   width: 80px;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 200px;
+  background-color: white;
 }
 
 body main #game .cell:hover {
@@ -182,7 +183,7 @@ body main #game .enemy-cell {
 }
 
 body main #game .played-cell {
-  background-color: yellow;
+  background-color: goldenrod;
 }
 
 body main #game .green {
@@ -199,7 +200,7 @@ body main #game .red {
 
 body main #game table {
   margin: auto;
-  background-color: #f0f0f0;
+  background-color: #1b31af;
   border-spacing: 15px;
 }
 

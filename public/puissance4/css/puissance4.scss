@@ -159,11 +159,12 @@ body {
             }
 
             .cell {
-                border: 1px solid $primaryColor_1;
+                border: 2px solid $primaryColor_1;
                 height: 80px;
                 width: 80px;
                 transition: 0.4s;
                 border-radius: 200px;
+                background-color: white;
 
                 &:hover {
                     background-color: $primaryColor_2;
@@ -179,7 +180,7 @@ body {
             }
 
             .played-cell {
-                background-color: yellow;
+                background-color: goldenrod;
             }
 
             .green {
@@ -196,7 +197,7 @@ body {
 
             table {
                 margin: auto;
-                background-color: $primaryColor_3;
+                background-color: rgb(27, 49, 175);
                 border-spacing: 15px;
             }
 

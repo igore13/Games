@@ -34,11 +34,87 @@ class Puissance4 {
     }
 
     calculEquality() {
-        return false;
+        let equality = true;
+        const cells = document.getElementsByClassName('cell');
+    
+        for (const cell of cells) {
+            if (!cell.classList.contains('enemy-cell') && !cell.classList.contains('played-cell')) {
+                equality = false;
+            }
+        };
+    
+        return equality;
+    }
+
+    checkPlacement(playedCell) {
+        let newPlayedCell = playedCell;
+        let column = playedCell[7];
+
+        for (let i = 1; i < 7; i++) {
+            if (!$(`#cell-${i}-${column}`)[0].classList.contains('played-cell') && !$(`#cell-${i}-${column}`)[0].classList.contains('enemy-cell')) {
+                newPlayedCell = `#cell-${i}-${column}`.substr(1);
+                i = 10;
+            }
+        }
+
+        return newPlayedCell;
     }
     
-    calculWin(playedCell) {
-        return false;
+    calculWin(playedCell, classname) {
+        let row = playedCell[5];
+        let column = playedCell[7];
+
+        let serie = 0;
+        let arrayElement = [];
+    
+        // VERTICAL
+    
+        for (let i = 1; i < 7; i++) {
+            if ($(`#cell-${i}-${column}`)[0].classList.contains(classname)) {
+                serie++;
+                arrayElement.push(`#cell-${i}-${column}`);
+            } else if (serie < 4) {
+                serie = 0;
+                arrayElement = [];
+            }
+        }
+
+        // console.log(serie)
+    
+        if (serie >= 4) {
+            arrayElement.forEach(element => {
+                $(element).addClass("win-cell");
+            });
+    
+            return true;
+        }
+    
+        // HORIZONTAL
+    
+        serie = 0;
+        arrayElement = [];
+
+        for (let i = 1; i < 8; i++) {
+            if ($(`#cell-${row}-${i}`)[0].classList.contains(classname)) {
+                serie++;
+                arrayElement.push(`#cell-${row}-${i}`);
+            } else if (serie < 4) {
+                serie = 0;
+                arrayElement = [];
+            }
+        }
+    
+        if (serie >= 4) {
+            arrayElement.forEach(element => {
+                $(element).addClass("win-cell");
+            });
+    
+            return true;
+        }
+    
+        // DIAGONAL
+    
+        // A FAIRE !
     }
 
     setGameText(message, classToAdd = false, classToRemove = false) {
@@ -87,7 +163,7 @@ class Puissance4 {
         const cells = document.getElementsByClassName('cell');
     
         for (const cell of cells) {
-            cell.classList.remove('win-cell', 'enemy-cell');
+            cell.classList.remove('win-cell', 'enemy-cell', 'played-cell');
         }
     
         if (this.player.first) {
@@ -193,7 +269,7 @@ class Puissance4 {
 
                 if (playerPlayed.win) {
                     this.setGameText("C'est perdu ! " + this.getEnemyName(players, this.player.socketId) + " à gagnée la partie !", ["red"], ["orange", "green"]);
-                    this.calculWin(playerPlayed.playedCell, 'O');
+                    this.calculWin(playerPlayed.playedCell, 'enemy-cell');
 
                     if (this.player.host) {
                         this.display.elementGameRestart.classList.remove('hidden');
@@ -215,8 +291,6 @@ class Puissance4 {
                 this.setGameText("C'est votre tour de jouer", ["green"], ["orange", "red"]);
                 this.player.turn = true;
             } else {
-                elementPlayerCell.classList.add('played-cell');
-
                 if (this.player.win) {
                     this.setGameText("Bravo ! Vous avez gagnée la partie !", ["green"], ["orange", "red"]);
 
@@ -243,12 +317,17 @@ class Puissance4 {
         });
 
         $(".cell").on('click', (event) => {
-            const playedCell = event.currentTarget.getAttribute('id');
+            const elementTarget = event.currentTarget;
+            const playedCell = elementTarget.getAttribute('id');
         
-            if (!event.currentTarget.classList.contains('enemy-cell') && !event.currentTarget.classList.contains('played-cell') && this.player.turn) {
-                this.player.playedCell = playedCell;
+            if (!elementTarget.classList.contains('enemy-cell') && !elementTarget.classList.contains('played-cell') && this.player.turn) {
+                this.player.playedCell = this.checkPlacement(playedCell);
+
+                const newElementTarget = document.getElementById(this.player.playedCell);
+
+                newElementTarget.classList.add('played-cell');
         
-                this.player.win = this.calculWin(playedCell);
+                this.player.win = this.calculWin(this.player.playedCell, 'played-cell');
                 this.player.turn = false;
         
                 socket.emit('puissance4-play', this.player);

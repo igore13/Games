@@ -167,7 +167,7 @@ class Morpions {
     
         for (const cell of cells) {
             cell.textContent = '';
-            cell.classList.remove('win-cell', 'enemy-cell');
+            cell.classList.remove('win-cell', 'enemy-cell', 'played-cell');
         }
     
         if (this.player.first) {
@@ -297,8 +297,6 @@ class Morpions {
                 this.setGameText("C'est votre tour de jouer", ["green"], ["orange", "red"]);
                 this.player.turn = true;
             } else {
-                elementPlayerCell.classList.add('played-cell');
-
                 if (this.player.win) {
                     this.setGameText("Bravo ! Vous avez gagnée la partie !", ["green"], ["orange", "red"]);
 
@@ -331,6 +329,7 @@ class Morpions {
                 this.player.playedCell = playedCell;
         
                 event.currentTarget.textContent = this.player.symbol;
+                event.currentTarget.classList.add('played-cell');
         
                 this.player.win = this.calculWin(playedCell);
                 this.player.turn = false;
