@@ -158,6 +158,7 @@ class Puissance4 {
             return true;
         }
 
+        serie = 0;
         calcul = 7 - Number(column);
         newRow = Number(row) - calcul;
         newColumn = Number(column) + calcul;

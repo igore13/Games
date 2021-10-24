@@ -7,6 +7,7 @@ body {
   margin: 0;
   font-family: sans-serif;
   color: black;
+  background-color: #eee4e4;
 }
 
 body .hidden {
@@ -179,7 +180,7 @@ body main #game .win-cell {
 }
 
 body main #game .enemy-cell {
-  background-color: red;
+  background-color: #911616;
 }
 
 body main #game .played-cell {
