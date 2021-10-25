@@ -1,4 +1,5 @@
 class Puissance4 {
+    // Constructeur
     constructor(socket) {
         this.socket = socket;
         this.urlRoomId;
@@ -33,10 +34,12 @@ class Puissance4 {
         }
     }
 
+    // Verifie l'Egalite
     calculEquality() {
         let equality = true;
         const cells = document.getElementsByClassName('cell');
-    
+        
+        // On verifie chaque cellule si elle sont jouer
         for (const cell of cells) {
             if (!cell.classList.contains('enemy-cell') && !cell.classList.contains('played-cell')) {
                 equality = false;
@@ -46,10 +49,12 @@ class Puissance4 {
         return equality;
     }
 
+    // Verifie l'emplacement le plus bas
     checkPlacement(playedCell) {
         let newPlayedCell = playedCell;
         let column = playedCell[7];
 
+        // Verifie chaque ligne du bloc
         for (let i = 1; i < 7; i++) {
             if (!$(`#cell-${i}-${column}`)[0].classList.contains('played-cell') && !$(`#cell-${i}-${column}`)[0].classList.contains('enemy-cell')) {
                 newPlayedCell = `#cell-${i}-${column}`.substr(1);
@@ -60,6 +65,7 @@ class Puissance4 {
         return newPlayedCell;
     }
     
+    // Verifie la Win
     calculWin(playedCell, classname) {
         const row = playedCell[5];
         const column = playedCell[7];
@@ -67,8 +73,7 @@ class Puissance4 {
         let serie = 0;
         let arrayElement = [];
     
-        // VERTICAL
-    
+        // Cellule Vertical
         for (let i = 1; i < 7; i++) {
             if ($(`#cell-${i}-${column}`)[0].classList.contains(classname)) {
                 serie++;
@@ -78,8 +83,6 @@ class Puissance4 {
                 arrayElement = [];
             }
         }
-
-        // console.log(serie)
     
         if (serie >= 4) {
             arrayElement.forEach(element => {
@@ -89,8 +92,7 @@ class Puissance4 {
             return true;
         }
     
-        // HORIZONTAL
-    
+        // Cellule Horizontal
         serie = 0;
         arrayElement = [];
 
@@ -112,8 +114,7 @@ class Puissance4 {
             return true;
         }
     
-        // DIAGONAL
-    
+        // Cellule Diagonale (Gauche a Droite)
         serie = 0;
         arrayElement = [];
 
@@ -158,6 +159,7 @@ class Puissance4 {
             return true;
         }
 
+        // Cellule Diagonale (Droite a Gauche)
         serie = 0;
         calcul = 7 - Number(column);
         newRow = Number(row) - calcul;
@@ -186,15 +188,18 @@ class Puissance4 {
         }
     }
 
+    // Info pour le Joueur
     setGameText(message, classToAdd = false, classToRemove = false) {
         this.display.elementGameInfo.textContent = message;
     
+        // On ajoute la class si elle est renseigné
         if (classToAdd) {
             classToAdd.forEach(classname => {
                 this.display.elementGameInfo.classList.add(classname);
             });
         }
     
+        // On retire la class si elle est renseigné
         if (classToRemove) {
             classToRemove.forEach(classname => {
                 this.display.elementGameInfo.classList.remove(classname);
@@ -202,10 +207,12 @@ class Puissance4 {
         }
     }
 
+    // Retourne le nom du Joueur Ennemie
     getEnemyName(players, socketId) {
         return players.find(player => player.socketId != socketId).username;
     }
 
+    // Join de la room
     joinRoom(event) {
         if (this.display.elementUsernameInput.value !== "") {
             this.player.username = this.display.elementUsernameInput.value;
@@ -219,6 +226,7 @@ class Puissance4 {
         }
     }
 
+    // Restart le Jeux
     restartGame(players = null) {
         if (this.player.host && !players) {
             socket.emit('puissance4-restart', this.player.roomId);
@@ -229,12 +237,14 @@ class Puissance4 {
             return;
         }
     
+        // On reset chaque cellule
         const cells = document.getElementsByClassName('cell');
     
         for (const cell of cells) {
             cell.classList.remove('win-cell', 'enemy-cell', 'played-cell');
         }
     
+        // On change de Joueur Départ
         if (this.player.first) {
             this.player.turn = false;
             this.player.first = false;
@@ -250,6 +260,7 @@ class Puissance4 {
         }
     }
 
+    // Start du Jeux
     startGame(players) {
         this.display.elementGameCancel.classList.add('hidden');
         this.display.elementGameBoard.classList.remove('hidden');
@@ -264,6 +275,7 @@ class Puissance4 {
         }
     }
 
+    // Verifie si une room est renseigné dans l'url
     checkRoomUrl() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -275,6 +287,7 @@ class Puissance4 {
         }
     }
 
+    // Creation du Jeux dans le Client
     createClientGame() {
         this.checkRoomUrl();
 
@@ -439,6 +452,7 @@ class Puissance4 {
 
         this.socket.emit('puissance4-list');
 
+        // Rafraichissement de la liste des rooms
         setInterval(() => {
             this.socket.emit('puissance4-list');
         }, 10000);

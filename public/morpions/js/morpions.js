@@ -1,4 +1,5 @@
 class Morpions {
+    // Constructeur
     constructor(socket) {
         this.socket = socket;
         this.urlRoomId;
@@ -34,10 +35,12 @@ class Morpions {
         }
     }
 
+    // Calcul l'Egalité
     calculEquality() {
         let equality = true;
         const cells = document.getElementsByClassName('cell');
-    
+        
+        // Verifie chaque cellule
         for (const cell of cells) {
             if (cell.textContent === '') {
                 equality = false;
@@ -47,12 +50,13 @@ class Morpions {
         return equality;
     }
     
+    // Calcul de la Win
     calculWin(playedCell, symbol = this.player.symbol) {
         let row = playedCell[5];
         let column = playedCell[7];
     
     
-        // VERTICAL
+        // Cellule Vertical
         let win = true;
     
         for (let i = 1; i < 4; i++) {
@@ -69,8 +73,7 @@ class Morpions {
             return win;
         }
     
-        // HORIZONTAL
-    
+        // Cellule Horizontal
         win = true;
         for (let i = 1; i < 4; i++) {
             if ($(`#cell-${row}-${i}`).text() !== symbol) {
@@ -86,8 +89,7 @@ class Morpions {
             return win;
         }
     
-        // DIAGONAL
-    
+        // Cellule Diagonale
         win = true;
     
         for (let i = 1; i < 4; i++) {
@@ -120,15 +122,18 @@ class Morpions {
         }
     }
 
+    // Info du Joueur
     setGameText(message, classToAdd = false, classToRemove = false) {
         this.display.elementGameInfo.textContent = message;
     
+        // On ajoute la class si renseignée
         if (classToAdd) {
             classToAdd.forEach(classname => {
                 this.display.elementGameInfo.classList.add(classname);
             });
         }
     
+        // On retire la class si renseignée
         if (classToRemove) {
             classToRemove.forEach(classname => {
                 this.display.elementGameInfo.classList.remove(classname);
@@ -136,10 +141,12 @@ class Morpions {
         }
     }
 
+    // Return le nom du Joueur Ennemie
     getEnemyName(players, socketId) {
         return players.find(player => player.socketId != socketId).username;
     }
 
+    // Join de la room
     joinRoom(event) {
         if (this.display.elementUsernameInput.value !== "") {
             this.player.username = this.display.elementUsernameInput.value;
@@ -153,6 +160,7 @@ class Morpions {
         }
     }
 
+    // Restart le Jeux
     restartGame(players = null) {
         if (this.player.host && !players) {
             socket.emit('morpions-restart', this.player.roomId);
@@ -165,11 +173,13 @@ class Morpions {
     
         const cells = document.getElementsByClassName('cell');
     
+        // Reset toute les cellules
         for (const cell of cells) {
             cell.textContent = '';
             cell.classList.remove('win-cell', 'enemy-cell', 'played-cell');
         }
     
+        // Change de Joueurs dans le Start
         if (this.player.first) {
             this.player.turn = false;
             this.player.first = false;
@@ -185,6 +195,7 @@ class Morpions {
         }
     }
 
+    // Start le Jeux
     startGame(players) {
         this.display.elementGameCancel.classList.add('hidden');
         this.display.elementGameBoard.classList.remove('hidden');
@@ -199,6 +210,7 @@ class Morpions {
         }
     }
 
+    // Verification si une room est dans l'url
     checkRoomUrl() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -210,6 +222,7 @@ class Morpions {
         }
     }
 
+    // Creation du Jeux sur le Client
     createClientGame() {
         this.checkRoomUrl();
 
@@ -374,6 +387,7 @@ class Morpions {
 
         this.socket.emit('morpions-list');
 
+        // Rafraichissement de la liste des rooms
         setInterval(() => {
             this.socket.emit('morpions-list');
         }, 10000);
