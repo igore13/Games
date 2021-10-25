@@ -179,7 +179,7 @@ body main #game .win-cell {
 }
 
 body main #game .enemy-cell {
-  background-color: #911616;
+  color: #911616;
 }
 
 body main #game .played-cell {

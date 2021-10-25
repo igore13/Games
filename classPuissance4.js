@@ -32,32 +32,18 @@ class Puissance4 {
         let players = [];
 
         // On recherche la room du player
-        let resultFind = this.rooms.find(room => room.id == player.roomId);
-
-        if (resultFind) {
-            if (player.win) {
-                // On recherche le player qui a gagné pour ajouté le point
-                resultFind = resultFind.players.find(playerTarget => playerTarget.socketId == player.socketId);
-
-                if (resultFind) {
-                    resultFind.point++;
+        this.rooms.forEach(room => {
+            if (room.id == player.roomId) {
+                if (player.win) {
+                    room.players.forEach(playerTarget => {
+                        if (playerTarget.socketId == player.socketId) {
+                            playerTarget.point++;
+                        }
+                    });
                 }
+                players = room.players;
             }
-            players = resultFind.players;
-        }
-
-        // this.rooms.forEach(room => {
-        //     if (room.id == player.roomId) {
-        //         if (player.win) {
-        //             room.players.forEach(playerTarget => {
-        //                 if (playerTarget.socketId == player.socketId) {
-        //                     playerTarget.point++;
-        //                 }
-        //             });
-        //         }
-        //         players = room.players;
-        //     }
-        // });
+        });
 
         this.io.to(player.roomId).emit('puissance4-play', player, players);
     }
