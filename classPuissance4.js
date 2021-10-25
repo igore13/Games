@@ -40,19 +40,20 @@ class Puissance4 {
     disconnect(socket) {
         this.rooms.forEach(room => {
             const targetPlayers = room.players;
-            targetPlayers.forEach(player => {
-                if (player.socketId == socket.id) {
-                    targetPlayers.forEach(targetPlayer => {
-                        if (targetPlayer.host) {
-                            this.rooms = this.rooms.filter(resultRoom => resultRoom !== room);
-                            console.log(`[REMOVE : Room] ${socket.id}`);
-                            this.io.to(targetPlayer.socketId).emit('puissance4-disconnectPlayer', targetPlayer);
-                        } else {
-                            this.io.to(targetPlayer.socketId).emit('puissance4-disconnectPlayer', targetPlayer);
-                        }
-                    });
-                }
-            });
+
+            let resultFind = targetPlayers.find(player => player.socketId == socket.id);
+
+            if (resultFind) {
+                targetPlayers.forEach(targetPlayer => {
+                    if (targetPlayer.host) {
+                        this.rooms = this.rooms.filter(resultRoom => resultRoom !== room);
+                        console.log(`[REMOVE : Room] ${socket.id}`);
+                        this.io.to(targetPlayer.socketId).emit('puissance4-disconnectPlayer', targetPlayer);
+                    } else {
+                        this.io.to(targetPlayer.socketId).emit('puissance4-disconnectPlayer', targetPlayer);
+                    }
+                });
+            }
         });
     }
 
