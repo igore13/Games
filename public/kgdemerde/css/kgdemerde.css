@@ -1,0 +1,42 @@
+body {
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr auto;
+      grid-template-rows: auto 1fr auto;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background-color: #eee4e4;
+}
+
+body .hidden {
+  display: none;
+}
+
+body header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 1fr 100px;
+      grid-template-columns: 100px 1fr 100px;
+  background-color: black;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+body header h1 {
+  text-align: center;
+}
+
+body header a img {
+  width: 100px;
+}
+
+body footer {
+  text-align: center;
+  padding: 20px;
+  background-color: black;
+  color: #f0f0f0;
+  margin-top: 10px;
+}
+/*# sourceMappingURL=kgdemerde.css.map */

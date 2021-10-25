@@ -48,5 +48,10 @@ const Puissance4 = require('./classPuissance4');
 const App_Puissance4 = new Puissance4(io);
 App_Puissance4.createServerGame(app, express, path);
 
+// Generation du KG de Merde
+const Kgdemerde = require('./classKgdemerde');
+const App_Kgdemerde = new Kgdemerde(io);
+App_Kgdemerde.createServerGame(app, express, path);
+
 // Utilisation du Repertoire Public
 app.use(express.static('public'));
